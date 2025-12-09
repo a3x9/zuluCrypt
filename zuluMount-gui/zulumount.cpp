@@ -984,15 +984,16 @@ static QString _fs_properties( const QString& m )
 {
 	QFile f( "/proc/self/mountinfo" ) ;
 
-	f.open( QIODevice::ReadOnly ) ;
+	if( f.open( QIODevice::ReadOnly ) ){
 
-	auto s = " " + m + " " ;
+		auto s = " " + m + " " ;
 
-	for( const auto& it : utility::split( f.readAll() ) ){
+		for( const auto& it : utility::split( f.readAll() ) ){
 
-		if( it.contains( s ) ){
+			if( it.contains( s ) ){
 
-			return utility::split( it,' ' ).last() ;
+				return utility::split( it,' ' ).last() ;
+			}
 		}
 	}
 

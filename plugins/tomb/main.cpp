@@ -73,22 +73,26 @@ int main( int argc,char * argv[] )
 			 */
 			QFile temp_file( temp_path ) ;
 
-			temp_file.open( QIODevice::WriteOnly ) ;
-			temp_file.write( key ) ;
-			temp_file.close() ;
+			if( temp_file.open( QIODevice::WriteOnly ) ){
+
+				temp_file.write( key ) ;
+				temp_file.close() ;
+			}
 
 			key = plugins::gpg( QVector<QString>{ exe.at( 1 ) },temp_path,password ) ;
 
 			temp_file.setFileName( temp_path ) ;
-			temp_file.open( QIODevice::WriteOnly ) ;
 
-			uchar * m = temp_file.map( 0,temp_file.size() ) ;
+			if( temp_file.open( QIODevice::WriteOnly ) ){
 
-			if( m ){
-				memset( m,'\0',temp_file.size() ) ;
-				temp_file.unmap( m ) ;
+				uchar * m = temp_file.map( 0,temp_file.size() ) ;
+
+				if( m ){
+					memset( m,'\0',temp_file.size() ) ;
+					temp_file.unmap( m ) ;
+				}
+				temp_file.close() ;
 			}
-			temp_file.close() ;
 			temp_file.remove() ;
 			return key ;
 		}

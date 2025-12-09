@@ -548,9 +548,10 @@ void keyDialog::openVolume()
 
 			QFile f( m_ui->lineEditKey->text() ) ;
 
-			f.open( QIODevice::ReadOnly ) ;
+			if( f.open( QIODevice::ReadOnly ) ){
 
-			m_key = f.readAll() ;
+				m_key = f.readAll() ;
+			}
 
 		}else if( keyType == keyDialog::keyKeyFile ){
 
