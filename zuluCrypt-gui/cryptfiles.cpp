@@ -308,8 +308,12 @@ void cryptfiles::pbCreate()
 		if( keySource == "-f" ){
 
 			QFile f( key_1 ) ;
-			f.open( QIODevice::ReadOnly ) ;
-			auto r = f.readAll() ;
+			QByteArray r ;
+
+			if( f.open( QIODevice::ReadOnly ) ){
+
+				r = f.readAll() ;
+			}
 
 			this->cryptFile( source._constPtr,dest._constPtr,r.constData(),r.size(),e ) ;
 		}else{

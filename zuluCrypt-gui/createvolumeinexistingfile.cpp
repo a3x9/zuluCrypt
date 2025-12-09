@@ -79,9 +79,7 @@ public:
 	{
 		if( m_randomData->open() ){
 
-			m_file.open( QIODevice::WriteOnly | QIODevice::Append ) ;
-
-			if( m_file.isOpen() ){
+			if( m_file.open( QIODevice::WriteOnly | QIODevice::Append ) ){
 
 				return openStatus::Success ;
 			}else{

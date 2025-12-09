@@ -2869,9 +2869,12 @@ utility::UrandomDataSource::UrandomDataSource() :
 
 bool utility::UrandomDataSource::open()
 {
-	m_file.open( QIODevice::ReadOnly ) ;
+	if( m_file.open( QIODevice::ReadOnly ) ){
 
-	return m_file.isOpen() ;
+		return true ;
+	}else{
+		return false ;
+	}
 }
 
 qint64 utility::UrandomDataSource::getData( char * data,qint64 size )
@@ -2934,11 +2937,14 @@ QString utility::loopDevicePath( const QString& e )
 
 				file.setFileName( m ) ;
 
-				file.open( QIODevice::ReadOnly ) ;
+				QString s ;
 
-				QString s = file.readAll() ;
+				if( file.open( QIODevice::ReadOnly ) ){
 
-				file.close() ;
+					s = file.readAll() ;
+
+					file.close() ;
+				}
 
 				if( s.startsWith( e ) ){
 

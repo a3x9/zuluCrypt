@@ -129,9 +129,12 @@ static inline QByteArray keyKeyFile( const QVector<QString>& exe,const QString& 
 
 	QFile f( keyFile ) ;
 
-	f.open( QIODevice::ReadOnly ) ;
+	if( f.open( QIODevice::ReadOnly ) ){
 
-	return password.toLatin1() + f.readAll() ;
+		return password.toUtf8() + f.readAll() ;
+	}else{
+		return {} ;
+	}
 }
 
 static inline QByteArray luks( const QVector<QString>& exe,const QString& keyFile,const QString& password )
@@ -156,9 +159,12 @@ static inline QByteArray luks( const QVector<QString>& exe,const QString& keyFil
 	QByteArray keyFileSize  = intToByteArray( keyfile.size() ) ;
 	QByteArray passWordSize = intToByteArray( password.size() ) ;
 
-	keyfile.open( QIODevice::ReadOnly ) ;
+	if( keyfile.open( QIODevice::ReadOnly ) ){
 
-	return passWordSize + keyFileSize + password.toLatin1() + keyfile.readAll() ;
+		return passWordSize + keyFileSize + password.toUtf8() + keyfile.readAll() ;
+	}else{
+		return {} ;
+	}
 }
 
 static inline QByteArray steghide( const QVector<QString>& exe,const QString& keyFile,const QString& password ){
